@@ -1,154 +1,95 @@
-# ReactNativeWheelPicker
-[![npm version](http://img.shields.io/npm/v/react-native-wheel-picker-android.svg?style=flat-square)](https://npmjs.org/package/react-native-wheel-picker-android "View this project on npm")
-[![npm version](http://img.shields.io/npm/dm/react-native-wheel-picker-android.svg?style=flat-square)](https://npmjs.org/package/react-native-wheel-picker-android "View this project on npm")
+# React native wheel picker V2
+<p>
+<img src="http://img.shields.io/npm/v/react-native-wheel-picker-android.svg" />
+<img src="https://img.shields.io/npm/dm/react-native-wheel-picker-android.svg" />
+<img src="https://img.shields.io/npm/dt/react-native-wheel-picker-android.svg" />
+</p>
 
-A simple Wheel Picker for Android based on https://github.com/AigeStudio/WheelPicker
-Also you can use multiple pickers, such as DatePicker or TimePicker
+A simple Wheel Picker for Android (For IOs is used PickerIOS)
 
-## Installation Android
-1. `npm install react-native-wheel-picker-android --save`
-2. `react-native link react-native-wheel-picker-android`
+
+## Installation
+`yarn add react-native-wheel-picker-android`
+
+![](./src/assets/pickerAndroid.gif)
+![](./src/assets/pickerIos.gif)
 
 # Usage
 
 ```js
 
-import {WheelPicker, DatePicker, TimePicker} from 'react-native-wheel-picker-android'
+import { WheelPicker, TimePicker, DatePicker } from 'react-native-wheel-picker-android'
 import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  Button
 } from 'react-native';
 
-class MyPickers extends Component {
+const wheelPickerData = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+
+class MyPicker extends Component {
+  state = {
+    selectedItem: 0,
+  }
+
+  onItemSelected = selectedItem => {
+    this.setState({ selectedItem })
+  }
+
+  onPress = () => {
+    this.setState({ selectedItem: 3 })
+  }
+
   render() {
-    let now = new Date()
-    let wheelPickerData = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     return (
       <View style={styles.container}>
-        <WheelPicker
-           onItemSelected={(event)=>this.onItemSelected(event)}
-           isCurved
-           data={wheelPickerData}
-           style={styles.wheelPicker}/>
-         <DatePicker
-           initDate={now.toISOString()}
-           onDateSelected={(date)=>this.onDateSelected(date)}/>
-         <TimePicker
-           initDate={now.toISOString()}
-           onTimeSelected={(date)=>this.onTimeSelected(date)}/>
+      <Button title={'Select third element'} onPress={this.onPress}/>
+      <Text>Selected position: {this.state.selectedItem}</Text>
+      <WheelPicker 
+        selectedItem={this.state.selectedItem}
+        data={wheelPickerData} 
+        onItemSelected={this.onItemSelected}/>
       </View>
     );
   }
-
-  onItemSelected(event){
-    // do something
-  }
-
-  onDateSelected(date){
-    // do something
-  }
-
-  onTimeSelected(date){
-    // do something
-  }
-
-
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  wheelPicker: {
-    width:200,
-    height: 150
-  }
-});
+module.exports = MyPicker;
 
-module.exports = MyPickers;
-
-```
-
-## Wheel Picker
-
-![](./src/wheelPicker.gif)
-
-```js
-
-import { WheelPicker, DatePicker, TimePicker } from 'react-native-wheel-picker-android'
-...
-
-  render() {
-    let arr = [1,2,3];
-    return (
-      <WheelPicker
-          onItemSelected={(event)=>{console.log(event)}}
-          isCurved
-          isCyclic
-          data={arr}
-          style={{width:300, height: 300}}/>
-    );
-  }
 ```
 
 ## Props
 
 | Prop  | Default  | Type | Description |
 | :------------ |:---------------:| :---------------:| :-----|
-| onItemSelected | null | `func` | Callback when user select item {data: 'itemData', position: 'itemPosition'} |
-| data | default string array | `array` | Data array (string or number type)  |
-| isCurved | false | `bool` | Make Wheel Picker curved |
+| onItemSelected | - | `func` | Returns selected position |
+| data | - | `Array<string>` | Data array  |
 | isCyclic | false | `bool` | Make Wheel Picker cyclic |
-| isAtmospheric | false | `bool` | Design Wheel Picker's items  |
-| selectedItemTextColor | grey | `string` | Wheel Picker's selected Item Text Color  |
-| itemSpace | 20 | `number` | Wheel Picker's items spacing |
-| visibleItemCount | 7 | `number` | Wheel Picker's items max visible count  |
-| renderIndicator | false | `bool` | Show Wheel Picker indicator |
-| indicatorColor | transparent | `string` | Indicator color  |
-| isCurtain | false | `bool` | Wheel Picker curtain  |
-| curtainColor | transparent | `string` | Wheel Picker curtain color  |
-| itemTextColor | grey | `string` | Wheel Picker's items color  |
-| itemTextSize | 20 | `number` |  Wheel Picker's items text size  |
-| itemTextFontFamily | null | `string` | Wheel Picker's items text font name  |
-| selectedItemPosition | null | `number` | Select current item position |
+| selectedItemTextColor | black | `string` | Wheel Picker's selected Item text color  |
+| selectedItemTextSize | 16 | `number` | Wheel Picker's selected Item text size  |
+| selectedItemTextFontFamily | - | `font-family` | Wheel Picker's selected Item font  |
+| itemTextColor | grey | `string` | Wheel Picker's Item Text Color  |
+| itemTextSize | 16 | `number` | Wheel Picker's Item text size  |
+| itemTextFontFamily | - | `font-family` | Wheel Picker's Item font  |
+| selectedItem | 0 | `number` | Current item position |
+| initPosition | 0 | `number` | Initial item position |
+| indicatorColor | black | `string` | Indicator color  |
+| hideIndicator | - | `boolean` | Hide indicator |
+| indicatorWidth | 1 | `number` | Indicator width |
 | backgroundColor | transparent | `string` | Wheel Picker background color  |
 
-### data
+# Time Picker
 
-An array of options. This should be provided with an __array of strings__ or __array of numbers__.
-
-
-### onItemSelected(event)
-
-Callback with event in the form `event = { data: 1, position: 0 }`
-
-
-## Time Picker
-
-![](./src/timePicker.gif)
+![](./src/assets/timePickerAndroid.gif)
+![](./src/assets/timePickerIos.gif)
 
 ```js
-
+onTimeSelected = date => {}
 ...
-
-  render() {
-    let minutesArray = ['00', '15', '30', '45'];
-    let now = new Date();
-    return (
-      	<TimePicker
-	       minutes={minutesArray}
-   	     onTimeSelected={(date)=>this.onTimeSelected(date))}
-	       initDate={now.toISOString()}/>
-    );
-  }
-
-  onTimeSelected(date){
-    // do something
-  }
+<TimePicker onTimeSelected={this.onTimeSelected}/>
 
 ```
 
@@ -156,32 +97,24 @@ Callback with event in the form `event = { data: 1, position: 0 }`
 
 | Prop  | Default  | Type | Description |
 | :------------ |:---------------:| :---------------:| :-----|
-| onTimeSelected | null | `func` | Callback when user select time {date: 'selectedTime'} |
-| initDate | current date | `ISOString` | Initial selected time  |
-| hours | [1, 2, 3, .. 12] | `array` | hours array |
-| minutes | ['00', '05' ,'10', .. '55'] | `array` | minutes array |
+| ...WheelPicker props | - | - | All style WheelPicker props |
+| initDate | current date | `Date` | Initial date  |
+| onTimeSelected | - | `func` | Callback with selected time |
+| hours | [1,2,3,4...] | `Array<string>` | Custom hours array  |
+| minutes | [00,05,10,15...] | `Array<string>` | Custom minutes array  |
+| format24 | false | `boolean` | Time format  |
 
+# Date Picker
 
-## Date Picker
+For IOs DatePickerIOS is used
 
-![](./src/datePicker.gif)
+![](./src/assets/datePickerAndroid.gif)
+![](./src/assets/datePickerIos.gif)
 
 ```js
-
+onDateSelected = date => {}
 ...
-
-  render() {
-  let now = new Date();
-    return (
-      	<DatePicker
-	    initDate={now.toISOString()}
-	    onDateSelected={(date)=> this.onDateSelected(date)}/>
-    );
-  }
-
-  onDateSelected(date){
-    // do something
-  }
+<DatePicker onDateSelected={this.onDateSelected}/>
 
 ```
 
@@ -189,14 +122,20 @@ Callback with event in the form `event = { data: 1, position: 0 }`
 
 | Prop  | Default  | Type | Description |
 | :------------ |:---------------:| :---------------:| :-----|
-| onDateSelected | null | `func` | Callback when user select date {date: 'selectedDate'} |
-| initDate | current date | `ISOString` | Initial selected date  |
-| days | ['Today', 'Wed Dec 28', ...] | `array` | days array |
-| hours | [1, 2, 3 .. 12] | `array` | hours array |
-| minutes | ['00', '05', '10', .. '55'] | `array` | minutes array |
-| format24 | false | `bool` | if true hours format is 24 hours|
-| startDate | current date | `ISOString` | The Earlest date |
-| daysCount | 365 | `number` | How many days included in Date Picker |
+| [DatePickerIOS props](https://facebook.github.io/react-native/docs/datepickerios#props) | - | - | All DatePickerIOS props (IOS only) |
+| initDate | current date | `Date` | Initial date  |
+| onDateSelected | - | `func` | Callback with selected date |
+| days | [1,2,3,4...] | `Array<string>` | Custom days array (Android only)  |
+| hours | [1,2,3,4...] | `Array<string>` | Custom hours array (Android only)  |
+| minutes | [00,05,10,15...] | `Array<string>` | Custom minutes array (Android only)  |
+| format24 | false | `boolean` | Time format (Android only) |
+| startDate | current date | `Date` | Min Date (Android only) |
+| daysCount | 365 | `number` | Days count to display from start date (Android only) |
+| hideDate | false | `boolean` | Hide days picker (Android only) |
+| hideHours | false | `boolean` | Hide hours picker (Android only) |
+| hideMinutes | false | `boolean` | Hide minutes picker (Android only) |
+| hideAM | false | `boolean` | Hide time format picker (Android only) |
+
 
 ## Questions or suggestions?
 
